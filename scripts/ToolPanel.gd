@@ -50,6 +50,8 @@ func switch_tool(tool:Tool):
 	position.y = get_viewport_rect().size.y - 10 - size.y
 
 func switch_layer(button):
+	layers.get_child(Main.invert_index(Main.scene.cur_layer_index)).self_modulate.v = 1
+	button.self_modulate.v = 5
 	Main.scene.cur_layer_index = Main.invert_index(button.get_index())
 	Main.scene.cur_layer_tex = Main.scene.layers.get_child(Main.scene.cur_layer_index).texture
 	Main.scene.cur_layer_img = Main.scene.cur_layer_tex.get_image()
@@ -75,6 +77,8 @@ func delete_layer(button):
 	size.y = layers.size.y + 20
 	position.y = get_viewport_rect().size.y - 10 - size.y
 func add_layer():
+	if Main.scene.layer_lock.size() > 0:
+		layers.get_child(Main.invert_index(Main.scene.cur_layer_index)).self_modulate.v = 1
 	var layer_spr = Sprite2D.new()
 	layer_spr.centered = false
 	Main.scene.cur_layer_img = Image.create(Main.scene.layers.size.x, Main.scene.layers.size.y, false, Image.FORMAT_RGBA8)
@@ -91,5 +95,6 @@ func add_layer():
 	button.delete.pressed.connect(delete_layer.bind(button))
 	button.label.text = layer_spr.name
 	layers.size.y = 0
+	button.self_modulate.v = 5
 	size.y = get_child(cur_tab).size.y + 20
 	position.y = get_viewport_rect().size.y - 10 - size.y
