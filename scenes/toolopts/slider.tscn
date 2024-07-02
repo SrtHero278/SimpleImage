@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=3 uid="uid://c4km45c6yx57m"]
+
+[ext_resource type="Script" path="res://scenes/toolopts/slider.gd" id="1_qxm4t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0hntk"]
+content_margin_left = 0.0
+content_margin_bottom = 16.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5am0x"]
+content_margin_left = 5.0
+bg_color = Color(0.172549, 0.172549, 0.172549, 0.501961)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bbvvn"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(0.356863, 0.356863, 0.356863, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8yctn"]
+content_margin_left = 5.0
+bg_color = Color(0.172549, 0.172549, 0.172549, 0.501961)
+
+[sub_resource type="Theme" id="Theme_snblq"]
+LineEdit/styles/focus = SubResource("StyleBoxFlat_5am0x")
+LineEdit/styles/normal = SubResource("StyleBoxFlat_bbvvn")
+LineEdit/styles/read_only = SubResource("StyleBoxFlat_8yctn")
+
+[node name="Slider" type="Label"]
+offset_right = 320.0
+offset_bottom = 39.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0hntk")
+text = "Size"
+script = ExtResource("1_qxm4t")
+
+[node name="SpinBox" type="SpinBox" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme = SubResource("Theme_snblq")
+min_value = 1.0
+value = 8.0
+rounded = true
+allow_greater = true
+
+[node name="HSlider" type="HSlider" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_left = 5.0
+offset_top = 20.0
+offset_right = -5.0
+offset_bottom = 36.0
+grow_horizontal = 2
+min_value = 1.0
+value = 8.0
+allow_greater = true
+
+[connection signal="value_changed" from="SpinBox" to="." method="_change"]
+[connection signal="value_changed" from="HSlider" to="." method="_change"]

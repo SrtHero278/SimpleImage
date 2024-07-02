@@ -1,0 +1,200 @@
+[gd_scene load_steps=8 format=3 uid="uid://gdenmu4dj2ds"]
+
+[ext_resource type="Shader" path="res://assets/shaders/transparen.gdshader" id="1_8d6hx"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_gr71v"]
+[ext_resource type="Script" path="res://scripts/ToolPanel.gd" id="3_o6644"]
+[ext_resource type="PackedScene" uid="uid://c4km45c6yx57m" path="res://scenes/toolopts/slider.tscn" id="4_l5t0i"]
+[ext_resource type="Script" path="res://scenes/objects/layerlist.gd" id="4_oey2c"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hr26q"]
+shader = ExtResource("1_8d6hx")
+shader_parameter/gridSize = 40.0
+shader_parameter/imgSize = Vector2(1280, 720)
+shader_parameter/color1 = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/color2 = Color(0.5, 0.5, 0.5, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ed0uj"]
+color = Color(0.764706, 0.764706, 0.764706, 1)
+thickness = 3
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gr71v")
+
+[node name="BG" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_hr26q")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+
+[node name="ToolPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -150.0
+offset_right = 350.0
+offset_bottom = -10.0
+focus_mode = 1
+script = ExtResource("3_o6644")
+
+[node name="Tools" type="VBoxContainer" parent="ToolPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+
+[node name="Tools" type="HFlowContainer" parent="ToolPanel/Tools"]
+layout_mode = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+
+[node name="HSeparator" type="HSeparator" parent="ToolPanel/Tools"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ed0uj")
+
+[node name="Options" type="VBoxContainer" parent="ToolPanel/Tools"]
+layout_mode = 2
+
+[node name="Layers" type="Container" parent="ToolPanel"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+script = ExtResource("4_oey2c")
+
+[node name="AddButton" type="Button" parent="ToolPanel/Layers"]
+modulate = Color(0, 2, 0, 1)
+layout_mode = 2
+text = " + Add Layer"
+
+[node name="LayerEdit" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+
+[node name="Name" type="LineEdit" parent="LayerEdit"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 31.0
+grow_horizontal = 2
+text = "Layer1"
+
+[node name="Visible" type="CheckBox" parent="LayerEdit"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 10.0
+offset_top = 41.0
+offset_right = 86.0
+offset_bottom = 31.0
+button_pressed = true
+text = "Visible?"
+
+[node name="CanDraw" type="CheckBox" parent="LayerEdit"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -86.0
+offset_top = 41.0
+offset_right = -10.0
+offset_bottom = 31.0
+grow_horizontal = 0
+button_pressed = true
+text = "Can Draw?"
+
+[node name="Slider" parent="LayerEdit" instance=ExtResource("4_l5t0i")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_right = -10.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Alpha
+"
+
+[node name="SpinBox" parent="LayerEdit/Slider" index="0"]
+min_value = 0.0
+value = 100.0
+
+[node name="HSlider" parent="LayerEdit/Slider" index="1"]
+min_value = 0.0
+value = 100.0
+
+[node name="Exit" type="Button" parent="LayerEdit"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -31.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Exit"
+
+[node name="SelectProject" type="FileDialog" parent="."]
+access = 2
+filters = PackedStringArray("*.pck")
+use_native_dialog = true
+
+[connection signal="mouse_entered" from="ToolPanel" to="." method="_on_tool_panel_mouse_entered"]
+[connection signal="mouse_exited" from="ToolPanel" to="." method="_on_tool_panel_mouse_exited"]
+[connection signal="pressed" from="ToolPanel/Layers/AddButton" to="ToolPanel" method="add_layer"]
+[connection signal="focus_exited" from="LayerEdit/Name" to="." method="_layer_name" binds= ["unused"]]
+[connection signal="text_submitted" from="LayerEdit/Name" to="." method="_layer_name"]
+[connection signal="toggled" from="LayerEdit/Visible" to="." method="_layer_vis"]
+[connection signal="toggled" from="LayerEdit/CanDraw" to="." method="_layer_lock"]
+[connection signal="on_change" from="LayerEdit/Slider" to="." method="_layer_alpha"]
+[connection signal="pressed" from="LayerEdit/Exit" to="LayerEdit" method="set" binds= ["visible", false]]
+[connection signal="file_selected" from="SelectProject" to="." method="_select_project"]
+
+[editable path="LayerEdit/Slider"]
