@@ -7,7 +7,7 @@ func _init():
 	icon = load("res://assets/icons/pencil.png")
 
 func apply_draw(pos):
-	Main.scene.cur_layer_img.fill_rect(Rect2i(pos - Main.scene.layers.position - (internal_size * 0.5), internal_size), color)
+	Main.scene.cur_layer_img.fill_rect(Rect2i(pos - (internal_size * 0.5), internal_size), color)
 
 func make_opts(parent):
 	super.make_opts(parent)

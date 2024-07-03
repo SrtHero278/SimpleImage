@@ -62,7 +62,21 @@ func _input(event):
 			tool_panel.cur_tool.cancel_input()
 		else:
 			tool_panel.cur_tool.input(event)
-
+			if event is InputEventMouseButton:
+				event = event as InputEventMouseButton
+				match event.button_index:
+					MOUSE_BUTTON_WHEEL_UP:
+						var og_scale = layers.scale
+						var origin = (event.position - layers.position) / (layers.size * og_scale)
+						layers.scale += Vector2(0.1, 0.1)
+						layers.scale = layers.scale.clamp(Vector2(0.1, 0.1), Vector2(25, 25))
+						layers.position -= (layers.size * layers.scale - layers.size * og_scale) * origin
+					MOUSE_BUTTON_WHEEL_DOWN:
+						var og_scale = layers.scale
+						var origin = (event.position - layers.position) / (layers.size * og_scale)
+						layers.scale -= Vector2(0.1, 0.1)
+						layers.scale = layers.scale.clamp(Vector2(0.1, 0.1), Vector2(25, 25))
+						layers.position -= (layers.size * layers.scale - layers.size * og_scale) * origin
 
 func _rename_layer():
 	var layer = layers.get_child(cur_layer_index)
@@ -81,6 +95,8 @@ func _layer_lock(toggled_on):
 
 func _select_project(path:String):
 	if project_dialog.file_mode == FileDialog.FILE_MODE_SAVE_FILE:
+		if not path.ends_with(".pck"):
+			path += ".pck"
 		DirAccess.make_dir_recursive_absolute("user://TEMP/layers")
 		
 		if FileAccess.file_exists(path):

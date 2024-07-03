@@ -12,11 +12,11 @@ func input(event):
 		event = event as InputEventMouseButton
 		match event.button_index:
 			MOUSE_BUTTON_LEFT:
-				if not event.pressed or event.position < Main.scene.layers.position or event.position > Main.scene.layers.position + Main.scene.layers.size:
+				if not event.pressed or event.position < Main.scene.layers.position or event.position > Main.scene.layers.position + Main.scene.layers.size * Main.scene.layers.scale:
 					in_use = false
 					return
 				in_use = true
-				apply_draw(event.position)
+				apply_draw((event.position - Main.scene.layers.position) / Main.scene.layers.scale)
 				Main.scene.cur_layer_tex.update(Main.scene.cur_layer_img)
 	if event is InputEventMouseMotion and in_use:
 		event = event as InputEventMouseMotion
@@ -41,7 +41,7 @@ func draw_to(start_pos:Vector2, end_pos:Vector2, relative = null):
 	var inc = relative / maxf(absf(relative.x), absf(relative.y))
 	while start_pos.round() != end_pos:
 		start_pos += inc
-		apply_draw(start_pos)
+		apply_draw((start_pos - Main.scene.layers.position) / Main.scene.layers.scale)
 	Main.scene.cur_layer_tex.update(Main.scene.cur_layer_img)
 
 func apply_draw(_pos):
