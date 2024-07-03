@@ -20,8 +20,8 @@ func input(event):
 				Main.scene.cur_layer_tex.update(Main.scene.cur_layer_img)
 	if event is InputEventMouseMotion and in_use:
 		event = event as InputEventMouseMotion
-		event.position = event.position.round()
-		event.relative = event.relative.round()
+		event.position = ((event.position - Main.scene.layers.position) / Main.scene.layers.scale).round()
+		event.relative = (event.relative / Main.scene.layers.scale).round()
 		var cur_pos = event.position - event.relative
 		draw_to(cur_pos, event.position, event.relative)
 
@@ -41,7 +41,7 @@ func draw_to(start_pos:Vector2, end_pos:Vector2, relative = null):
 	var inc = relative / maxf(absf(relative.x), absf(relative.y))
 	while start_pos.round() != end_pos:
 		start_pos += inc
-		apply_draw((start_pos - Main.scene.layers.position) / Main.scene.layers.scale)
+		apply_draw(start_pos)
 	Main.scene.cur_layer_tex.update(Main.scene.cur_layer_img)
 
 func apply_draw(_pos):
