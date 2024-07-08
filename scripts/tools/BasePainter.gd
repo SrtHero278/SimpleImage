@@ -14,6 +14,8 @@ func input(event):
 			MOUSE_BUTTON_LEFT:
 				if not event.pressed or event.position < Main.scene.layers.position or event.position > Main.scene.layers.position + Main.scene.layers.size * Main.scene.layers.scale:
 					in_use = false
+					Main.scene.cur_layer_img.fix_alpha_edges()
+					Main.scene.cur_layer_tex.update(Main.scene.cur_layer_img)
 					return
 				in_use = true
 				apply_draw((event.position - Main.scene.layers.position) / Main.scene.layers.scale)

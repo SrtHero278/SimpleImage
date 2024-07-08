@@ -32,10 +32,11 @@ func _ready():
 			return
 		
 		var data = JSON.parse_string(FileAccess.get_file_as_string("res://data.json"))
-		layers.size = Vector2(data.width, data.height)
+		layers.size = Vector2(roundf(data.width), roundf(data.height))
 		for layer in data.layers:
 			tool_panel.add_layer()
 			cur_layer_img.load_png_from_buffer(FileAccess.get_file_as_bytes(layer.path))
+			cur_layer_img.fix_alpha_edges()
 			cur_layer_tex.update(cur_layer_img)
 			var layer_spr = layers.get_child(cur_layer_index)
 			layer_spr.name = layer.name
@@ -104,7 +105,7 @@ func _select_project(path:String):
 			
 		var packer = PCKPacker.new()
 		packer.pck_start(path)
-		var data = {"width": layers.size.x, "height": layers.size.y, "layers": []}
+		var data = {"width": roundi(layers.size.x), "height": roundi(layers.size.y), "layers": []}
 		
 		for i in layers.get_child_count():
 			var layer = layers.get_child(i)
